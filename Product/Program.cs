@@ -51,7 +51,7 @@ namespace Product
 
             foreach (IProduct product in ProductList)
             {
-                if (product.GetType() == typeof(Meat) && product.Quantity < 20)
+                if (product.GetType() == typeof(Meat) && product.Quantity > 20)
                 {
                     product.Print();
                 }
