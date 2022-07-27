@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Product
 {
-    internal interface IProduct
+    public interface IProduct
     {
-        string name { get; }
-        int price { get; }
+        int Id { get; set; }
+        string Name { get; set; }
+        int Price { get; set; }
+        void Print();
     }
 }
