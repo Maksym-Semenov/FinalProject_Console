@@ -2,9 +2,8 @@
 
 namespace Product
 {
-    internal class Sausage : MeatProduct
+    internal class Sausage : MeatProduct, IComparable<Sausage>
     {
-        private int quantity;
         public Sausage(int id, string name, int price, string description, int quantity)
         {
             this.id = id;
@@ -13,9 +12,13 @@ namespace Product
             this.description = description;
             this.quantity = quantity;
         }
+        public int CompareTo(Sausage other)
+        {
+            return id.CompareTo(id);
+        }
         public override void Print()
         {
-            Console.WriteLine($"Sausage {Name} has price {Price} and id {Id}");
+            Console.WriteLine($"Sausage {Name} has price {Price} and id {Id}. Quantity = {quantity}");
         }
     }
 }
