@@ -4,9 +4,10 @@ namespace Product
 {
     internal class Kefir : DairyProduct, IComparable<Kefir>
     {
-        public Kefir(int id, string name, int price, string description, int quantity)
+        public Kefir(int id, string type, string name, int price, string description, int quantity)
         {
             this.id = id;
+            this.type = type;
             this.name = name;
             this.price = price;
             this.description = description;

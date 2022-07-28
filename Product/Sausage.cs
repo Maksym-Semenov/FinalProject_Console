@@ -4,9 +4,10 @@ namespace Product
 {
     internal class Sausage : MeatProduct, IComparable<Sausage>
     {
-        public Sausage(int id, string name, int price, string description, int quantity)
+        public Sausage(int id, string type, string name, int price, string description, int quantity)
         {
             this.id = id;
+            this.type = type;
             this.name = name;
             this.price = price;
             this.description = description;
