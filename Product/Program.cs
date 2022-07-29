@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Xml.Serialization;
 
 namespace Product
 {
@@ -10,6 +12,7 @@ namespace Product
     {
         static void Main(string[] args)
         {
+            
             List<IProduct> productList = new List<IProduct>();
             //string pathOut = @"D:\Final Project\Old Products.txt";
             //string pathIn = @"D:\Final Project\New Products.txt";
@@ -68,14 +71,8 @@ namespace Product
             {
                 product.Print();
             }
-
+            
             Console.ReadLine();
-            //Stream stream = new FileStream("product.json", FileMode.Create);
-            //DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(IProduct));
-            //ser.WriteObject(stream, productList);
-            //stream.Position = 0;
-            //List<IProduct> productList2 = new List<IProduct>();
-            //productList2 = (List<IProduct>)ser.ReadObject(stream);
 
             var sortProduct = productList.OrderByDescending(x => x.Id);
             foreach (IProduct product in sortProduct)

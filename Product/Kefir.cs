@@ -1,11 +1,14 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Product
 {
-    [DataContract]
-    internal class Kefir : DairyProduct, IComparable<Kefir>
+    [Serializable]
+    public class Kefir : DairyProduct, IComparable<Kefir>
     {
+        public Kefir()
+        {
+
+        }
         public Kefir(int id, string name, int price, string description, int quantity)
         {
             this.id = id;
