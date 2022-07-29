@@ -5,38 +5,30 @@ using System.Xml.Serialization;
 
 namespace Product
 {
-   
-    [Serializable]
     [DataContract]
     public abstract class MeatProduct : IProduct
     {
         public int id;
-        public string type;
         public string name;
         public int price;
         public string description;
         public int quantity;
+
         [DataMember]
-        [XmlAttribute]
-        public int Id { get { return id; } set { Id = value; } }
+        public int Id { get { return this.id; } set { this.Id = value; } }
+
         [DataMember]
-        [XmlAttribute]
-        public string Type { get { return type; } set { Type = value; } }
+        public string Name { get { return this.name; } set { this.Name = value; } }
+
         [DataMember]
-        [XmlAttribute]
-        public string Name { get { return name; } set { Name = value; } }
+        public int Price { get { return this.price; } set { this.Price = value; } }
+
         [DataMember]
-        [XmlAttribute]
-        public int Price { get { return price; } set { Price = value; } }
+        public string Description { get { return this.description; } set { this.Description = value; } }
+
         [DataMember]
-        [XmlAttribute]
-        public string Description { get { return description; } set { Description = value; } }
-        [DataMember]
-        [XmlAttribute]
-        public int Quantity { get { return quantity; } set { quantity = value; } }
-        public MeatProduct()
-        {
-        }
+        public int Quantity { get { return this.quantity; } set { this.Quantity = value; } }
+
         public virtual void Print()
         {
             Console.WriteLine();

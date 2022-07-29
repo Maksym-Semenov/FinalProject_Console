@@ -1,25 +1,28 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Product
 {
+    [DataContract]
     internal class Kefir : DairyProduct, IComparable<Kefir>
     {
-        public Kefir(int id, string type, string name, int price, string description, int quantity)
+        public Kefir(int id, string name, int price, string description, int quantity)
         {
             this.id = id;
-            this.type = type;
             this.name = name;
             this.price = price;
             this.description = description;
             this.quantity = quantity;
         }
+
         public int CompareTo(Kefir other)
         {
-            return id.CompareTo(id);
+            return this.id.CompareTo(this.id);
         }
+
         public override void Print()
         {
-            Console.WriteLine($"Kefir {Name} has price {Price} and id {Id}. Quantity = {quantity}");
+            Console.WriteLine($"Kefir {this.name} has price {this.price} and id {this.id}. Quantity = {this.quantity}.");
         }
     }
 }
