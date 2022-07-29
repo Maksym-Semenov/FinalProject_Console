@@ -1,4 +1,8 @@
-﻿namespace Product
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+
+namespace Product
 {
     public interface IProduct
     {

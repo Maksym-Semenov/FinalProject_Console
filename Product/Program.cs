@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Json;
 using System.IO;
-using System.Linq;
-using System.Xml;
+using System.Xml.Serialization;
 
 namespace Product
 {
@@ -10,10 +10,11 @@ namespace Product
     {
         static void Main(string[] args)
         {
-            //List<IProduct> ProductList = new List<IProduct>(10);
+
+            List<IProduct> ProductList = new List<IProduct>(10);
             string pathOut = @"D:\Final Project\Old Products.txt";
             string pathIn = @"D:\Final Project\New Products.txt";
-            string[] type = new string[5];
+            string[] type = new string[6];
             string item = "";
             try
             {
@@ -23,13 +24,8 @@ namespace Product
                     {
                         if ((item = reader.ReadLine()) != null)
                         {
-                            item.Split(',');
+                            type = item.Split(new char[] { ',' });
                             Console.WriteLine(item);
-                            using (StreamWriter writer = new StreamWriter(pathIn, true, System.Text.Encoding.Default))
-                            {
-                                writer.WriteLine(item);
-                            }
-                            //File.WriteAllText(pathIn, JsonConvert.SerializeObject(item, Formatting.Indented));
                         }
                     }
                 }
@@ -37,7 +33,15 @@ namespace Product
             catch (FileNotFoundException)
             {
                 Console.WriteLine("File not found");
-            } 
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                using (StreamWriter writer = new StreamWriter(pathIn, false))
+                {
+                    writer.WriteLine(item);
+                }
+            }
+            
             Console.ReadLine();
             //MeatProduct meatProduct1 = new Meat(0,"Krakivske", 98, "tastes good", 12);
             //MeatProduct meatProduct3 = new Sausage(2, "Lvivska", 104, "tastes well", 45);
@@ -64,18 +68,6 @@ namespace Product
             //    product.Print();
             //}
             //Console.ReadLine();
-            
-            using (StreamReader reader = new StreamReader(pathOut))
-            {
-                for (int i = 0; i < 9; i++)
-                {
-                    if ((item = reader.ReadLine()) != null)
-                    {
-                        item.Split(',');
-                        Console.WriteLine(item);
-                    }
-                }
-            }
 
             //var sortProduct = ProductList.OrderByDescending(x => x.Id);
             //foreach (IProduct product in sortProduct)
