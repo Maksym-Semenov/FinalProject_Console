@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Product
 {
@@ -36,6 +38,34 @@ namespace Product
                 productList.Add(meatProduct3);
                 productList.Add(meatProduct8);
 
+                // Serialize from stream - work
+                //using (FileStream fs = new FileStream("product.json", FileMode.Create))
+                //{
+                //    JsonSerializer.Serialize(fs, productList);
+                //    Console.WriteLine("Data has been saved to file");
+                //}
+
+                // Deserialize from stream - don't work
+                //using (FileStream fs = new FileStream("product.json", FileMode.OpenOrCreate))
+                //{
+                //    // List<IProduct> productList2 = new List<IProduct>();
+                //    IProduct productList2 = JsonSerializer.Deserialize<IProduct>(fs);
+                //    Console.WriteLine(productList2);
+                //}
+
+                // Serialize from DataContract - don't work
+                Stream stream = new FileStream("person.json", FileMode.Create);
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(IProduct));
+                ser.WriteObject(stream, (IProduct)productList);
+                Console.WriteLine("Data has been saved to file");
+                Console.ReadLine();
+
+                // Deserialize from DataContract - don't work
+                stream.Position = 0;
+                IProduct productList2 = (IProduct) ser.ReadObject(stream);
+                Console.WriteLine("YES");
+                Console.ReadLine();
+
                 // Start program
                 Console.BackgroundColor = ConsoleColor.Blue;
                 Console.ForegroundColor = ConsoleColor.Black;
@@ -43,10 +73,11 @@ namespace Product
                 Console.WriteLine("\t\tIt's my finally project");
                 Console.WriteLine();
                 Console.WriteLine("\tYou have 10 products");
-     start:     Console.WriteLine("\r\nEnter '1' if you want to see all products." +
-                                  "\r\nEnter '2' if you want choose action" +
-                                  "\r\nEnter '3' if you want come back to begin");
+                start: Console.WriteLine("\r\nEnter '1' if you want to see all products." +
+                                         "\r\nEnter '2' if you want choose action" +
+                                         "\r\nEnter '3' if you want come back to begin");
                 Console.WriteLine();
+
                 // First menu
                 switch (Console.ReadLine())
                 {
@@ -55,11 +86,13 @@ namespace Product
                         foreach (IProduct product in productList)
                         {
                             product.Print();
-                        };
+                        }
+
                         Console.WriteLine("\r\nEnter '1' if you want to see all products." +
-                                  "\r\nEnter '2' if you want choose action" +
-                                  "\r\nEnter '3' if you want come back to begin");
+                                          "\r\nEnter '2' if you want choose action" +
+                                          "\r\nEnter '3' if you want come back to begin");
                         break;
+
                     // Choose filters
                     case "2":
                         Console.WriteLine("You can choose from next filters:" +
@@ -75,8 +108,10 @@ namespace Product
                                 foreach (IProduct product in sortProduct)
                                 {
                                     product.Print();
-                                };
+                                }
+
                                 break;
+
                             // Limit price
                             case "2":
                                 Console.WriteLine("Enter limit product's price:");
@@ -88,7 +123,9 @@ namespace Product
                                         product.Print();
                                     }
                                 }
+
                                 break;
+
                             // Product quantity
                             case "3":
                                 Console.WriteLine("Enter limit product's quantity:");
@@ -107,6 +144,7 @@ namespace Product
                                                     product.Print();
                                                 }
                                             }
+
                                             break;
                                         case "Sausage":
                                             foreach (IProduct product in productList)
@@ -116,6 +154,7 @@ namespace Product
                                                     product.Print();
                                                 }
                                             }
+
                                             break;
                                         case "Milk":
                                             foreach (IProduct product in productList)
@@ -125,6 +164,7 @@ namespace Product
                                                     product.Print();
                                                 }
                                             }
+
                                             break;
                                         case "Kefir":
                                             foreach (IProduct product in productList)
@@ -134,30 +174,32 @@ namespace Product
                                                     product.Print();
                                                 }
                                             }
+
                                             break;
                                         default:
                                             break;
                                     }
+
                                     break;
                                 }
                                 else
                                 {
                                     throw new Exception ("Enter right value");
                                 }
+
                             default:
                                 break;
                         }
+
                         break;
                     case "3":
                         goto start;
                     default:
                         continue;
                 }
-                
+
                 Console.ReadLine();
             }
-            
-            
         }
     }
 }
