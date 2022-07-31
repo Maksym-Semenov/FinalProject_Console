@@ -46,6 +46,16 @@ namespace Product
                 //}
 
                 // Deserialize from stream - don't work
+                List<IProduct> productList2 = new List<IProduct>();
+                using (FileStream fs = new FileStream("product.json", FileMode.OpenOrCreate))
+                {
+                    productList2 = JsonSerializer.Deserialize<List<IProduct>>(fs);
+                }
+
+                foreach (IProduct product in productList2)
+                {
+                    product.Print();
+                }
                 //using (FileStream fs = new FileStream("product.json", FileMode.OpenOrCreate))
                 //{
                 //    // List<IProduct> productList2 = new List<IProduct>();
@@ -54,151 +64,150 @@ namespace Product
                 //}
 
                 // Serialize from DataContract - don't work
-                Stream stream = new FileStream("person.json", FileMode.Create);
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(IProduct));
-                ser.WriteObject(stream, (IProduct)productList);
-                Console.WriteLine("Data has been saved to file");
+                //Stream stream = new FileStream("person.json", FileMode.Create);
+                //DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(IProduct));
+                //ser.WriteObject(stream, (IProduct)productList);
+                //Console.WriteLine("Data has been saved to file");
+                //Console.ReadLine();
+
+                //// Deserialize from DataContract - don't work
+                //stream.Position = 0;
+                //IProduct productList2 = (IProduct) ser.ReadObject(stream);
+                //Console.WriteLine("YES");
                 Console.ReadLine();
 
-                // Deserialize from DataContract - don't work
-                stream.Position = 0;
-                IProduct productList2 = (IProduct) ser.ReadObject(stream);
-                Console.WriteLine("YES");
-                Console.ReadLine();
-
-                // Start program
-                Console.BackgroundColor = ConsoleColor.Blue;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Clear();
-                Console.WriteLine("\t\tIt's my finally project");
-                Console.WriteLine();
-                Console.WriteLine("\tYou have 10 products");
+                    // Start program
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Clear();
+                    Console.WriteLine("\t\tIt's my finally project");
+                    Console.WriteLine();
+                    Console.WriteLine("\tYou have 10 products");
                 start: Console.WriteLine("\r\nEnter '1' if you want to see all products." +
                                          "\r\nEnter '2' if you want choose action" +
                                          "\r\nEnter '3' if you want come back to begin");
-                Console.WriteLine();
+                    Console.WriteLine();
 
-                // First menu
-                switch (Console.ReadLine())
-                {
-                    // Prewiew all products
-                    case "1":
-                        foreach (IProduct product in productList)
-                        {
-                            product.Print();
-                        }
+                    // First menu
+                    switch (Console.ReadLine())
+                    {
+                        // Prewiew all products
+                        case "1":
+                            foreach (IProduct product in productList)
+                            {
+                                product.Print();
+                            }
 
-                        Console.WriteLine("\r\nEnter '1' if you want to see all products." +
-                                          "\r\nEnter '2' if you want choose action" +
-                                          "\r\nEnter '3' if you want come back to begin");
-                        break;
+                            Console.WriteLine("\r\nEnter '1' if you want to see all products." +
+                                              "\r\nEnter '2' if you want choose action" +
+                                              "\r\nEnter '3' if you want come back to begin");
+                            break;
 
-                    // Choose filters
-                    case "2":
-                        Console.WriteLine("You can choose from next filters:" +
-                                          "\r\nEnter 1 if you want sorted all producrt by ID" +
-                                          "\r\nEnter 2 if you want sorted by limit price" +
-                                          "\r\nEnter 3 if you want sorted by limit quantity ");
-                        switch (Console.ReadLine())
-                        {
-                            // Order by Descending
-                            case "1":
-                                int filterValue = Convert.ToInt32(Console.ReadLine());
-                                var sortProduct = productList.OrderByDescending(x => x.Id);
-                                foreach (IProduct product in sortProduct)
-                                {
-                                    product.Print();
-                                }
-
-                                break;
-
-                            // Limit price
-                            case "2":
-                                Console.WriteLine("Enter limit product's price:");
-                                bool succeessPrice = int.TryParse(Console.ReadLine(), out int limitPrice);
-                                foreach (IProduct product in productList)
-                                {
-                                    if (product.GetType() == typeof(Milk) && product.Price <= limitPrice)
+                        // Choose filters
+                        case "2":
+                            Console.WriteLine("You can choose from next filters:" +
+                                              "\r\nEnter 1 if you want sorted all producrt by ID" +
+                                              "\r\nEnter 2 if you want sorted by limit price" +
+                                              "\r\nEnter 3 if you want sorted by limit quantity ");
+                            switch (Console.ReadLine())
+                            {
+                                // Order by Descending
+                                case "1":
+                                    int filterValue = Convert.ToInt32(Console.ReadLine());
+                                    var sortProduct = productList.OrderByDescending(x => x.Id);
+                                    foreach (IProduct product in sortProduct)
                                     {
                                         product.Print();
                                     }
-                                }
 
-                                break;
+                                    break;
 
-                            // Product quantity
-                            case "3":
-                                Console.WriteLine("Enter limit product's quantity:");
-                                bool succeessQuantity = int.TryParse(Console.ReadLine(), out int limitQuantity);
-                                if (succeessQuantity == true)
-                                {
-                                    Console.WriteLine("Enter type of product:");
-                                    string succeessType = Console.ReadLine();
-                                    switch (succeessType)
+                                // Limit price
+                                case "2":
+                                    Console.WriteLine("Enter limit product's price:");
+                                    bool succeessPrice = int.TryParse(Console.ReadLine(), out int limitPrice);
+                                    foreach (IProduct product in productList)
                                     {
-                                        case "Meat":
-                                            foreach (IProduct product in productList)
-                                            {
-                                                if (product.GetType() == typeof(Meat) && product.Quantity > limitQuantity)
-                                                {
-                                                    product.Print();
-                                                }
-                                            }
-
-                                            break;
-                                        case "Sausage":
-                                            foreach (IProduct product in productList)
-                                            {
-                                                if (product.GetType() == typeof(Sausage) && product.Quantity > limitQuantity)
-                                                {
-                                                    product.Print();
-                                                }
-                                            }
-
-                                            break;
-                                        case "Milk":
-                                            foreach (IProduct product in productList)
-                                            {
-                                                if (product.GetType() == typeof(Milk) && product.Quantity > limitQuantity)
-                                                {
-                                                    product.Print();
-                                                }
-                                            }
-
-                                            break;
-                                        case "Kefir":
-                                            foreach (IProduct product in productList)
-                                            {
-                                                if (product.GetType() == typeof(Kefir) && product.Quantity > limitQuantity)
-                                                {
-                                                    product.Print();
-                                                }
-                                            }
-
-                                            break;
-                                        default:
-                                            break;
+                                        if (product.GetType() == typeof(Milk) && product.Price <= limitPrice)
+                                        {
+                                            product.Print();
+                                        }
                                     }
 
                                     break;
-                                }
-                                else
-                                {
-                                    throw new Exception ("Enter right value");
-                                }
 
-                            default:
-                                break;
-                        }
+                                // Product quantity
+                                case "3":
+                                    Console.WriteLine("Enter limit product's quantity:");
+                                    bool succeessQuantity = int.TryParse(Console.ReadLine(), out int limitQuantity);
+                                    if (succeessQuantity == true)
+                                    {
+                                        Console.WriteLine("Enter type of product:");
+                                        string succeessType = Console.ReadLine();
+                                        switch (succeessType)
+                                        {
+                                            case "Meat":
+                                                foreach (IProduct product in productList)
+                                                {
+                                                    if (product.GetType() == typeof(Meat) && product.Quantity > limitQuantity)
+                                                    {
+                                                        product.Print();
+                                                    }
+                                                }
 
-                        break;
-                    case "3":
-                        goto start;
-                    default:
-                        continue;
-                }
+                                                break;
+                                            case "Sausage":
+                                                foreach (IProduct product in productList)
+                                                {
+                                                    if (product.GetType() == typeof(Sausage) && product.Quantity > limitQuantity)
+                                                    {
+                                                        product.Print();
+                                                    }
+                                                }
 
-                Console.ReadLine();
+                                                break;
+                                            case "Milk":
+                                                foreach (IProduct product in productList)
+                                                {
+                                                    if (product.GetType() == typeof(Milk) && product.Quantity > limitQuantity)
+                                                    {
+                                                        product.Print();
+                                                    }
+                                                }
+
+                                                break;
+                                            case "Kefir":
+                                                foreach (IProduct product in productList)
+                                                {
+                                                    if (product.GetType() == typeof(Kefir) && product.Quantity > limitQuantity)
+                                                    {
+                                                        product.Print();
+                                                    }
+                                                }
+
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Enter right value");
+                                    }
+
+                                default:
+                                    break;
+                            }
+
+                            break;
+                        case "3":
+                            goto start;
+                        default:
+                            continue;
+                    }
+                    Console.ReadLine();
             }
         }
     }
