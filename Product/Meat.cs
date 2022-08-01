@@ -1,31 +1,47 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Product
 {
-    [Serializable]
+    [DataContract]
+
     public class Meat : MeatProduct, IComparable<Meat>
     {
-        public Meat()
-        {
+        public string typeOfMeat;
 
-        }
-        public Meat(int id, string name, int price, string description, int quantity)
+        [DataMember]
+        public int Id { get { return this.id; } set { Id = value; } }
+
+        [DataMember]
+        public string Name { get { return this.name; } set { Name = value; } }
+
+        [DataMember]
+        public int Price { get { return this.price; } set { Price = value; } }
+
+        [DataMember]
+        public string Description { get { return this.description; } set { Description = value; } }
+
+        [DataMember]
+        public int Quantity { get { return this.quantity; } set { Quantity = value; } }
+
+        [DataMember]
+        public string TypeOfMeat { get { return this.typeOfMeat; } set { TypeOfMeat = value; } }
+
+        public Meat(int id, string name, int price, string description, int quantity, string typeOfMeat)
+                 : base(id, name, price, description, quantity)
         {
-            this.id = id;
-            this.name = name;
-            this.price = price;
-            this.description = description;
-            this.quantity = quantity;
+            this.typeOfMeat = typeOfMeat;
         }
 
         public int CompareTo(Meat other)
         {
-            return this.id.CompareTo(this.id);
+            return this.Id.CompareTo(this.Id);
         }
 
         public override void Print()
         {
-            Console.WriteLine($"Meat {this.name} has price {this.price} and id {this.id}. Quantity = {this.quantity}.");
+            Console.WriteLine($"Product {GetType().Name}, Id = {this.Id} name = {this.Name}, Price = {this.Price}," +
+                              $" Description = {this.Description}, Quantity = {this.Quantity}, Type of meat = {this.TypeOfMeat}");
         }
     }
 }

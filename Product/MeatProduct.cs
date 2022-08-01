@@ -5,7 +5,6 @@ using System.Xml.Serialization;
 
 namespace Product
 {
-    [DataContract]
     public abstract class MeatProduct : IProduct
     {
         public int id;
@@ -13,20 +12,27 @@ namespace Product
         public int price;
         public string description;
         public int quantity;
-        [DataMember]
-        public int Id { get { return this.id; } set { this.Id = value; } }
-        [DataMember]
-        public string Name { get { return this.name; } set { this.Name = value; } }
-        [DataMember]
-        public int Price { get { return this.price; } set { this.Price = value; } }
-        [DataMember]
-        public string Description { get { return this.description; } set { this.Description = value; } }
-        [DataMember]
-        public int Quantity { get { return this.quantity; } set { this.Quantity = value; } }
-        public MeatProduct()
-        {
 
+        public int Id { get { return this.id; } set { this.id = value; } }
+
+        public string Name { get { return this.name; } set { this.name = value; } }
+
+        public int Price { get { return this.price; } set { this.price = value; } }
+
+        public string Description { get { return this.description; } set { this.description = value; } }
+
+        public int Quantity { get { return this.quantity; } set { this.quantity = value; } }
+
+
+        public MeatProduct(int id, string name, int price, string description, int quantity)
+        {
+            this.id = id;
+            this.name = name;
+            this.price = price;
+            this.description = description;
+            this.quantity = quantity;
         }
+
         public virtual void Print()
         {
             Console.WriteLine();

@@ -1,31 +1,46 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Product
 {
-    [Serializable]
+    [DataContract]
     public class Kefir : DairyProduct, IComparable<Kefir>
     {
-        public Kefir()
-        {
+        public int fatContent;
 
-        }
-        public Kefir(int id, string name, int price, string description, int quantity)
+        [DataMember]
+        public int Id { get { return this.id; } set { Id = value; } }
+
+        [DataMember]
+        public string Name { get { return this.name; } set { Name = value; } }
+
+        [DataMember]
+        public int Price { get { return this.price; } set { Price = value; } }
+
+        [DataMember]
+        public string Description { get { return this.description; } set { Description = value; } }
+
+        [DataMember]
+        public int Quantity { get { return this.quantity; } set { Quantity = value; } }
+
+        [DataMember]
+        public int FatContent { get { return this.fatContent; } set { fatContent = value; } }
+
+        public Kefir(int id, string name, int price, string description, int quantity, int fatContent)
+                 : base(id, name, price, description, quantity)
         {
-            this.id = id;
-            this.name = name;
-            this.price = price;
-            this.description = description;
-            this.quantity = quantity;
+            this.fatContent = fatContent;
         }
 
         public int CompareTo(Kefir other)
         {
-            return this.id.CompareTo(this.id);
+            return this.Id.CompareTo(this.Id);
         }
 
         public override void Print()
         {
-            Console.WriteLine($"Kefir {this.name} has price {this.price} and id {this.id}. Quantity = {this.quantity}.");
+            Console.WriteLine($"Product {GetType().Name}, Id = {this.Id} name = {this.Name}, Price = {this.Price}," +
+                              $" Description = {this.Description}, Quantity = {this.Quantity}, fat content = {this.fatContent}");
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace Product
 {
-    
+    [JsonConverter(typeof(List<IProduct>))]
     public interface IProduct
     {
         int Id { get; set; }
