@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Product
 {
-    [DataContract]
     public abstract class DairyProduct : IProduct
     {
         public int id;
@@ -22,6 +20,9 @@ namespace Product
 
         public int Quantity { get { return this.quantity; } set { this.quantity = value; } }
 
+        public DairyProduct()
+        {
+        }
 
         public DairyProduct(int id, string name, int price, string description, int quantity)
         {

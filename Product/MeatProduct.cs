@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Xml.Serialization;
 
 namespace Product
 {
@@ -23,6 +20,9 @@ namespace Product
 
         public int Quantity { get { return this.quantity; } set { this.quantity = value; } }
 
+        public MeatProduct()
+        {
+        }
 
         public MeatProduct(int id, string name, int price, string description, int quantity)
         {

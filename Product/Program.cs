@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Product
 {
@@ -18,15 +14,15 @@ namespace Product
                 // Create List of products
                 List<IProduct> productList = new List<IProduct>();
                 MeatProduct meatProduct1 = new Meat(0, "Krakivske", 98, "tastes good", 13, "pork");
-                MeatProduct meatProduct3 = new Sausage(2, "Lvivska", 104, "tastes well", 34,"beaf");
-                DairyProduct dairyProduct2 = new Milk(1, "Vashington", 15, "soft", 42, 2);
+                MeatProduct meatProduct3 = new Sausage(2, "Lvivska", 104, "spicy", 34,"beaf");
+                DairyProduct dairyProduct2 = new Milk(1, "Washington", 15, "soft", 42, 2);
                 DairyProduct dairyProduct4 = new Kefir(3, "Munich", 17, "alco", 24, 3);
-                MeatProduct meatProduct5 = new Meat(4, "Kyivske", 112, "awesome", 76, "veal");
+                MeatProduct meatProduct5 = new Meat(4, "Kyivske", 112, "fresh", 76, "veal");
                 DairyProduct dairyProduct6 = new Milk(5, "Poznan", 22, "cool", 33, 4);
-                MeatProduct meatProduct8 = new Sausage(7, "Varshavska", 98, "tastes very good", 19, "pork");
+                MeatProduct meatProduct8 = new Sausage(7, "Varshavska", 98, "smoked", 19, "pork");
                 DairyProduct dairyProduct7 = new Kefir(6, "Mariupol", 29, "sweet", 41, 5);
-                MeatProduct meatProduct9 = new Meat(8, "Londonske", 98, "tastes awesome", 84, "beaf");
-                DairyProduct dairyProduct10 = new Milk(9, "Kharkiv", 23, "sauwer", 58, 6);
+                MeatProduct meatProduct9 = new Meat(8, "Londonske", 98, "savory", 84, "beaf");
+                DairyProduct dairyProduct10 = new Milk(9, "Kharkiv", 23, "lactoze free", 58, 6);
                 productList.Add(meatProduct1);
                 productList.Add(dairyProduct10);
                 productList.Add(dairyProduct7);
@@ -42,53 +38,42 @@ namespace Product
                     product.Print();
                 }
                 //// Serialize from stream - work
-                //FileStream fs = new FileStream("product67.json", FileMode.Create);
-                //JsonSerializer.Serialize(fs, productList);
-                //Console.WriteLine("Data has been saved to file");
-                //fs.Close();
-                // Deserialize from stream - don't work
-                //List<IProduct> productList2 = new List<IProduct>();
-                //FileStream fs2 = new FileStream("product.json", FileMode.OpenOrCreate);
-                //productList2 = JsonSerializer.Deserialize<List<IProduct>>(fs2);
+                Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+                serializer.Converters.Add(new Newtonsoft.Json.Converters.JavaScriptDateTimeConverter());
+                serializer.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                serializer.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+                serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
 
-                //foreach (IProduct product in productList2)
-                //{
-                //    product.Print();
-                //}
+                using (StreamWriter sw = new StreamWriter("products22.json"))
+                using (Newtonsoft.Json.JsonWriter writer = new Newtonsoft.Json.JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, productList, typeof(List<IProduct>));
+                }
 
-                //using (FileStream fs = new FileStream("product.json", FileMode.OpenOrCreate))
-                //{
-                //    // List<IProduct> productList2 = new List<IProduct>();
-                //    IProduct productList2 = JsonSerializer.Deserialize<IProduct>(fs);
-                //    Console.WriteLine(productList2);
-                //}
+                List<IProduct> productList2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IProduct>>(File.ReadAllText("products22.json"), new Newtonsoft.Json.JsonSerializerSettings
+                {
+                    TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
+                    NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                });
+                Console.WriteLine();
+                var sortProduct1 = productList.OrderBy(x => x.Id);
+                foreach (IProduct product in sortProduct1)
+                {
+                    product.Print();
+                }
 
-                // Serialize from DataContract - don't work
-                //Stream stream = new FileStream("person.json", FileMode.Create);
-                //DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(IProduct));
-                //ser.WriteObject(stream, (IProduct)productList);
-                //Console.WriteLine("Data has been saved to file");
-                //Console.ReadLine();
-
-                //// Deserialize from DataContract - don't work
-                //stream.Position = 0;
-                //IProduct productList2 = (IProduct) ser.ReadObject(stream);
-                //Console.WriteLine("YES");
-                Console.ReadLine();
-
-                    // Start program
+                // Start program
                 Console.BackgroundColor = ConsoleColor.Blue;
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.Clear();
-                Console.WriteLine("\t\tIt's my finally project");
-                Console.WriteLine();
-                Console.WriteLine();
-     start:     Console.WriteLine("\t\tSTART MENU" +
-                                  "\r\n\tYou have 10 products" +
+                Console.WriteLine("\t\tIt's my finally project\r\n");
+            start: Console.WriteLine("\t\tSTART MENU" +
+                                  "\r\n\tYou have " + productList.Count + " products" +
                                   "\r\nEnter '1' if you want to see all products." +
-                                  "\r\nEnter '2' if you want choose action" +
-                                  "\r\nEnter '3' if you want come back to begin");
+                                  "\r\nEnter '2' if you want to sort products" +
+                                  "\r\nEnter '3' if you want to come back to Start Menu");
                 Console.WriteLine();
+
                 // First menu
                 switch (Console.ReadLine())
                 {
@@ -103,12 +88,13 @@ namespace Product
 
                     // Choose filters
                     case "2":
-     select:                Console.WriteLine("\t\tFILTER MENU" +
-                                            "\r\n\tYou can choose from next filters:" +
-                                            "\r\nEnter 1 if you want sorted all producrt by ID" +
-                                            "\r\nEnter 2 if you want sorted by limit price" +
-                                            "\r\nEnter 3 if you want sorted by limit quantity" +
-                                            "\r\nEnter 4 if you want come back to begin");
+                    select: Console.WriteLine("\t\tFILTER MENU" +
+                                        "\r\n\tYou can choose filter from PRODUCT LIST:" +
+                                        "\r\nEnter 1 if you want to sort all products by ID" +
+                                        "\r\nEnter 2 if you want to sort all products by limit price" +
+                                        "\r\nEnter 3 if you want to sort all products by limit quantity" +
+                                        "\r\nEnter 4 if you want to come back to Start Menu");
+
                     switch (Console.ReadLine())
                     {
                         // Order by Descending
@@ -123,11 +109,11 @@ namespace Product
 
                         // Limit price
                         case "2":
-                        Console.WriteLine("Enter limit product's price:");
+                        Console.WriteLine("Enter limit product price:");
                         bool succeessPrice = int.TryParse(Console.ReadLine(), out int limitPrice);
                         foreach (IProduct product in productList)
                         {
-                            if (product.GetType() == typeof(Milk) && product.Price <= limitPrice)
+                            if (product.Price <= limitPrice)
                             {
                                 product.Print();
                             }
@@ -139,11 +125,11 @@ namespace Product
 
                         // Product quantity
                         case "3":
-                        Console.WriteLine("Enter limit product's quantity:");
+                        Console.WriteLine("Enter limit product quantity:");
                         bool succeessQuantity = int.TryParse(Console.ReadLine(), out int limitQuantity);
                         if (succeessQuantity == true)
                         {
-     name:              Console.WriteLine("Enter type of product:");
+                                name: Console.WriteLine("Enter type of product:");
                             string succeessType = Console.ReadLine();
                             switch (succeessType)
                             {
@@ -188,7 +174,7 @@ namespace Product
 
                                 goto select;
                                 default:
-                                Console.WriteLine("Product don't have in LIST");
+                                Console.WriteLine("Product is not in LIST");
                                 goto name;
                             }
 
