@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DairyProduct.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="Kefir.cs" />
     <Compile Include="Meat.cs" />

@@ -6,7 +6,7 @@ namespace Product
     [DataContract]
     public class Sausage : MeatProduct, IComparable<Sausage>
     {
-        public string typeOfMeat;
+        private string typeOfMeat;
 
         [DataMember]
         public int Id { get { return this.id; } set { Id = value; } }

@@ -7,7 +7,7 @@ namespace Product
 
     public class Meat : MeatProduct, IComparable<Meat>
     {
-        public string typeOfMeat;
+        private string typeOfMeat;
 
         [DataMember]
         public int Id { get { return this.id; } set { Id = value; } }
