@@ -14,7 +14,7 @@ namespace Product
                 // Create List of products
                 List<IProduct> productListSer = new List<IProduct>();
                 MeatProduct meatProduct1 = new Meat(0, "Krakivske", 98, "tastes good", 13, "pork");
-                MeatProduct meatProduct3 = new Sausage(2, "Lvivska", 104, "spicy", 34,"beaf");
+                MeatProduct meatProduct3 = new Sausage(2, "Lvivska", 104, "spicy", 34, "beaf");
                 DairyProduct dairyProduct2 = new Milk(1, "Washington", 15, "soft", 42, 2);
                 DairyProduct dairyProduct4 = new Kefir(3, "Munich", 17, "alco", 24, 3);
                 MeatProduct meatProduct5 = new Meat(4, "Kyivske", 112, "fresh", 76, "veal");
@@ -52,7 +52,7 @@ namespace Product
                 }
 
                 // Deserialize
-                List<IProduct> productList2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IProduct>>(File.ReadAllText("products22.json"), new Newtonsoft.Json.JsonSerializerSettings
+                List<IProduct> productList2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IProduct>>(File.ReadAllText("product.json"), new Newtonsoft.Json.JsonSerializerSettings
                 {
                     TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
                     NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
